@@ -3,12 +3,15 @@ package com.paulonio.chess.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.paulonio.chess.R;
+import com.paulonio.chess.dao.DBHelper;
 import com.paulonio.chess.models.Game;
 import com.paulonio.chess.models.Score;
 import com.paulonio.chess.models.Tournament;
@@ -22,6 +25,7 @@ public class PairingsActivity extends AppCompatActivity {
     int actualRound;
     ListView pairingsListView;
     TextView roundTV;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,26 @@ public class PairingsActivity extends AppCompatActivity {
         roundTV = findViewById(R.id.roundTextView);
         pairingsListView = findViewById(R.id.pairingsListView);
         displayPairings();
+
+        db = new DBHelper(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_tournament, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_home:
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void displayPairings() {
@@ -88,8 +112,8 @@ public class PairingsActivity extends AppCompatActivity {
             }
         }
         if (!ifRoundAlreadySaved) {
-            tournament.updateResults(actualRound);
+            tournament.updateResults(actualRound, true);
         }
-        int a = 0;
+        db.insertOrUpdateTournament(tournament);
     }
 }

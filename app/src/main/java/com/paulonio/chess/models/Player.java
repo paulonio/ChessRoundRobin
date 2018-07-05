@@ -17,13 +17,17 @@ import lombok.Setter;
 @RequiredArgsConstructor(staticName = "of")
 public class Player implements Serializable {
 
+    @Setter
+    private long dataBaseId;
     @NonNull
     private String name;
     @NonNull
     private String surname;
     @NonNull
     private int rating;
+    @Setter
     private double score = 0;
+    @Setter
     private double bergerScore;
     private List<Game> playedGames = new ArrayList<>();
     @Setter

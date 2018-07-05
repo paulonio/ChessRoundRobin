@@ -19,6 +19,8 @@ import lombok.Setter;
 @RequiredArgsConstructor(staticName = "of")
 public class Tournament implements Serializable {
 
+    @Setter
+    private long dataBaseId;
     @NonNull
     private String name;
     @NonNull
@@ -33,9 +35,10 @@ public class Tournament implements Serializable {
     private int numberOfRoundRobins;
 
     private List<Player> players = new ArrayList<>();
-    private List<Player> startList;
+    private List<Player> startList = new ArrayList<>();
     private List<Player> results;
-    private List<List<Game>> pairings;
+    private List<List<Game>> pairings = new ArrayList<>();
+    @Setter
     private int numberOfRoundsPlayed;
 
     public final static Player FAKE_BYE_PLAYER = Player.of("BYE", "BYE", 0);
@@ -57,19 +60,23 @@ public class Tournament implements Serializable {
         return pairings.get(roundNumber - 1);
     }
 
-    public void updateResults(int roundNumber) {
+    public void updateResults(int roundNumber, boolean startNextRound) {
         results = new ArrayList<>();
-        ++numberOfRoundsPlayed;
-        for (Game game : pairings.get(roundNumber - 1)) {
-            if (!game.getWhitePlayer().equals(FAKE_BYE_PLAYER) && !game.getBlackPlayer().equals(FAKE_BYE_PLAYER)) {
-                game.getBlackPlayer().addPlayedGame(game);
-                game.getWhitePlayer().addPlayedGame(game);
+        if (startNextRound) {
+            ++numberOfRoundsPlayed;
+
+            for (Game game : pairings.get(roundNumber - 1)) {
+                if (!game.getWhitePlayer().equals(FAKE_BYE_PLAYER) && !game.getBlackPlayer().equals(FAKE_BYE_PLAYER)) {
+                    game.getBlackPlayer().addPlayedGame(game);
+                    game.getWhitePlayer().addPlayedGame(game);
+                }
             }
         }
         for (Player player : startList) {
             player.updateBerger();
             results.add(player);
         }
+
         if (tieBreak == TournamentTieBreaks.BERGER) {
             Collections.sort(results, new Player.ResultsBergerComparator());
         }

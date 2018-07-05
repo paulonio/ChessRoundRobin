@@ -12,6 +12,8 @@ import lombok.Setter;
 @RequiredArgsConstructor(staticName = "of")
 public class Game implements Serializable {
 
+    @Setter
+    private long dataBaseId;
     @NonNull
     Player whitePlayer;
     @NonNull

@@ -6,16 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.paulonio.chess.R;
+import com.paulonio.chess.dao.DBHelper;
 import com.paulonio.chess.models.ListOrderingType;
 import com.paulonio.chess.models.Player;
 import com.paulonio.chess.models.Tournament;
 import com.paulonio.chess.models.TournamentTieBreaks;
 import com.paulonio.chess.models.TournamentType;
+import com.paulonio.chess.utils.TournamentAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,11 +27,11 @@ import java.util.List;
 
 public class NewTournamentActivity extends AppCompatActivity {
 
-    EditText tournamentNameET;
-    Spinner roundRobinsSpinner;
-    Spinner tiebreaksSpinner;
-    Spinner startListOrderSpinner;
-    Spinner tournamnetTypeSpinner;
+    private EditText tournamentNameET;
+    private Spinner roundRobinsSpinner;
+    private Spinner tiebreaksSpinner;
+    private Spinner startListOrderSpinner;
+    private Spinner tournamnetTypeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

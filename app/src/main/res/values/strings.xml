@@ -8,7 +8,7 @@
     <string name="tournamentType">Type of tournament:</string>
     <string name="next">Next</string>
     <string name="add">Add</string>
-    <string name="finish_adding">Finish adding</string>
+    <string name="finish_adding">Start tournament</string>
     <string name="surname">Surname:</string>
     <string name="name">Name:</string>
     <string name="rating">Rating:</string>
@@ -48,6 +48,10 @@
     <string name="player">Player</string>
     <string name="points">Points</string>
     <string name="berger">Berger</string>
+    <string name="AlerTitle">New ranking list available!</string>
+    <string name="AlertDIalogMessage">Click yes to download (~9MB of transfer)</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
 
 
 </resources>

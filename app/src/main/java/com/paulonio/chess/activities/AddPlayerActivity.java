@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.paulonio.chess.R;
+import com.paulonio.chess.dao.DBHelper;
+import com.paulonio.chess.dao.FidePlayer;
 import com.paulonio.chess.models.Player;
 import com.paulonio.chess.models.Tournament;
 
@@ -17,6 +19,7 @@ public class AddPlayerActivity extends AppCompatActivity {
     private EditText nameET;
     private EditText surnameET;
     private EditText ratingET;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class AddPlayerActivity extends AppCompatActivity {
         nameET = findViewById(R.id.nameEditText);
         surnameET = findViewById(R.id.surnameEditText);
         ratingET = findViewById(R.id.ratingEditText);
+
+        db = new DBHelper(this);
     }
 
     public void onAddButtonClick(View vew) {
@@ -51,8 +56,26 @@ public class AddPlayerActivity extends AppCompatActivity {
             return;
         }
         tournament.startTournament();
+        db.insertOrUpdateTournament(tournament);
         Intent intent = new Intent(AddPlayerActivity.this, StartListActivity.class);
         intent.putExtra("Tournament", tournament);
         AddPlayerActivity.this.startActivity(intent);
+    }
+
+    public void onSearchButtonClick(View view) {
+        Intent myIntent = new Intent(AddPlayerActivity.this, SearchPlayerActivity.class);
+        startActivityForResult(myIntent, 1);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                FidePlayer player = (FidePlayer) data.getSerializableExtra("Player");
+                surnameET.setText(player.getSurname());
+                nameET.setText(player.getName());
+                ratingET.setText(player.getRating());
+            }
+        }
     }
 }
